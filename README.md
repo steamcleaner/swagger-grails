@@ -3,6 +3,10 @@
 # swagger-grails
 Generate and view Swagger documentation for your Grails app.
 
+## Built With
+* Grails 3.1.5
+* Swagger Core 1.5.15
+* Swagger UI 3.0.18
 
 ## Installation
 Add this line to the `dependencies` block in your `build.gradle` file:
@@ -74,4 +78,17 @@ The following resources.groovy ...
  Any of the fields on the Swagger object can be configured this way as well.  For some more
  info on what can be configured the [OpenAPI-Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schema) describes what the Swagger
  object can contain.
+
+## Running the plugin locally
+The plugin source contains more examples of what types of configuration you
+can apply to controllers and actions :
+
+##### Prerequisites
+* Java 8
+* Grails 3.1.5
+
+##### Running
+* Clone or download the repo
+* Run `grails run-app`
+* Navigate to `http://localhost:8080/swagger`
 
