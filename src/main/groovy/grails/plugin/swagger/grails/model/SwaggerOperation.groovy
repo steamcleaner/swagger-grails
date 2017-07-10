@@ -4,6 +4,7 @@ import grails.plugin.swagger.grails.SwaggerBuilderHelper
 import grails.plugin.swagger.grails.SwaggerMapping
 import grails.web.mapping.UrlMapping
 import groovy.transform.ToString
+import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
@@ -99,6 +100,19 @@ class SwaggerOperation implements SwaggerMapping, SwaggerBuilderHelper {
             case "patch": return "PATCH"
             default: return "GET"
         }
+    }
+
+    /**
+     * TODO: Not sure if this is going to be needed...
+     *
+     * @return
+     */
+    private String getApiValuePath() {
+        Optional
+                .ofNullable(controllerClass.clazz.annotations.find { it.annotationType() == Api.class })
+                .map { annotation -> annotation as Api }
+                .map { api -> api.value() }
+                .orElse("")
     }
 
     /**
