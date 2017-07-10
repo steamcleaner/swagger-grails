@@ -54,7 +54,9 @@ class AuthorCommand implements Validateable {
 
 ... will generate Swagger documentation like this :
 
-![Example Swagger Doc](src/test/resources/author-controller.png?raw=true)
+<p style="text-align: center;">
+    <img src="src/test/resources/author-controller.png?raw=true" />
+</p>
 
 Also any Swagger annotations that are manually added to actions in  controllers
 will be used when generating the Swagger documentation. So you could let the
