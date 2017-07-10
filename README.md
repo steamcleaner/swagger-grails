@@ -54,7 +54,7 @@ class AuthorCommand implements Validateable {
 
 ... will generate Swagger documentation like this :
 
-<p style="text-align: center;">
+<p align="center">
     <img src="src/test/resources/author-controller.png?raw=true" />
 </p>
 
