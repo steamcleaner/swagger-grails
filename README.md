@@ -1,5 +1,3 @@
-# WIP
-
 # swagger-grails
 Generate and view Swagger documentation for your Grails app.
 
@@ -9,6 +7,10 @@ Generate and view Swagger documentation for your Grails app.
 * Swagger UI 3.0.18
 
 ## Installation
+Add this line to the `repositories` block in your `build.gradle` file:
+    
+    maven { url "https://dl.bintray.com/steamcleaner/plugins/" }
+
 Add this line to the `dependencies` block in your `build.gradle` file:
     
     compile "org.grails.plugins:swagger-grails:0.1"
