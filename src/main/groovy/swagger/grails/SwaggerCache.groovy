@@ -2,6 +2,7 @@ package swagger.grails
 
 import groovy.util.logging.Slf4j
 import io.swagger.models.Swagger
+import org.codehaus.groovy.runtime.InvokerHelper
 
 /**
  * Simple cache that is used to house a current and backup instance
@@ -24,7 +25,14 @@ class SwaggerCache {
      * @return An instance of {@link Swagger}
      */
     Swagger getOrElse(Closure closure) {
+        if (!backup) {
+            backup = new Swagger()
+            InvokerHelper.setProperties(backup, swagger.properties)
+        }
+
         if (flushed) {
+            InvokerHelper.setProperties(swagger, backup.properties)
+
             try {
                 closure.call(swagger)
                 backup = swagger

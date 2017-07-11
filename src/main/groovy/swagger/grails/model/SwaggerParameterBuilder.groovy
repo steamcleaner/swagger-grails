@@ -39,7 +39,7 @@ class SwaggerParameterBuilder implements SwaggerBuilderHelper {
         CtMethod ctMethod = ctClass.getDeclaredMethod(method.name)
         LocalVariableAttribute attribute = ctMethod.getMethodInfo().getCodeAttribute().getAttribute(LocalVariableAttribute.tag) as LocalVariableAttribute
 
-        (1..method.parameterCount).collect { int index ->
+        List<SwaggerParameter> parameters = (1..method.parameterCount).collect { int index ->
             Class<?> type = method.parameters[index - 1].getType()
             boolean isPrimitiveOrString = (ClassUtils.isPrimitiveOrWrapper(type) || type == String.class)
             String fieldName = attribute.variableName(index)
@@ -58,7 +58,14 @@ class SwaggerParameterBuilder implements SwaggerBuilderHelper {
                 logParameterValidationError(controllerClass.naturalName, actionName, param)
 
             list
-        }.sort {
+        } as List<SwaggerParameter>
+
+        pathParams.each {
+            if (!(it in parameters*.name))
+                parameters << new SwaggerParameter(name: it, dataType: "java.lang.String", paramType: "path")
+        }
+
+        parameters.sort {
             it.name
         }
     }

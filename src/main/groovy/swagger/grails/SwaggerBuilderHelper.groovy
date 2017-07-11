@@ -28,7 +28,9 @@ trait SwaggerBuilderHelper {
      * @return {@link javassist.CtClass}
      */
     static CtClass buildCtClass(String className) {
-        buildCtClass(className, className)
+        ClassPool classPool = new ClassPool()
+        classPool.appendSystemPath()
+        classPool.getCtClass(className)
     }
 
     /**
