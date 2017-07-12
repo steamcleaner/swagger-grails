@@ -15,7 +15,7 @@ Add this line to the `repositories` block in your `build.gradle` file:
 
 Add this line to the `dependencies` block in your `build.gradle` file:
     
-    compile "org.grails.plugins:swagger-grails:0.1"
+    compile "org.grails.plugins:swagger-grails:0.1.0"
     
 ## Usage
 Given the following UrlMappings.groovy ...
