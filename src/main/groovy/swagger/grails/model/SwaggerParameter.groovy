@@ -1,5 +1,6 @@
 package swagger.grails.model
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import grails.validation.Validateable
 import groovy.transform.ToString
 import groovy.util.logging.Slf4j
@@ -15,6 +16,7 @@ import groovy.util.logging.Slf4j
  * </ul>
  */
 @Slf4j
+@JsonIgnoreProperties("errors")
 @ToString(includes = ['name', 'paramType', 'dataType', 'required'], includePackage = false)
 class SwaggerParameter implements Validateable {
     String name
