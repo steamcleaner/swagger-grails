@@ -1,10 +1,9 @@
 package swagger.grails
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import io.swagger.util.Json
 import swagger.grails.model.SwaggerApi
 
 class SwaggerController {
-    ObjectMapper mapper = new ObjectMapper()
     SwaggerService swaggerService
 
     def index() {
@@ -15,7 +14,7 @@ class SwaggerController {
         render(status: 200, contentType: "application/json", text: swaggerService.generate())
     }
 
-    def apiInternal() {
-        render(status: 200, contentType: "application/json", text: mapper.writeValueAsString(SwaggerApi.apis))
+    def internal() {
+        render(status: 200, contentType: "application/json", text: Json.mapper().writeValueAsString(SwaggerApi.apis))
     }
 }
