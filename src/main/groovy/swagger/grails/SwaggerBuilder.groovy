@@ -17,40 +17,25 @@ class SwaggerBuilder implements SwaggerBuilderHelper {
      *  with the proper Swagger annotations added on so that the Swagger
      *  library can generate the required JSON.
      *
-     * @return a set of {@link Class} objects
+     * @return the list of classes with proper Swagger annotations
      */
     static Set<Class> getClasses() {
         List<SwaggerApi> swaggerApis = SwaggerApi.apis
-        SwaggerLoader swaggerLoader = new SwaggerLoader()
 
         swaggerApis.collect { swaggerApi ->
-            CtClass ctClass = buildCtClass("swagger.grails.generated.${swaggerApi.shortName}", swaggerApi.className)
+            CtClass ctClass = buildCtClass(generateName(swaggerApi.shortName), swaggerApi.className)
             ClassFile classFile = ctClass.getClassFile()
             ConstPool constPool = classFile.getConstPool()
 
-            if (!hasExistingAnnotation(classFile, Api.class)) {
-                try {
-                    classFile.addAttribute(swaggerApi.buildApiAnnotation(constPool))
-                } catch (Exception e) {
-                    log.error("""
-                        Unable to attach @Api annotation to: ${swaggerApi.shortName}
-                    """.stripIndent(), e)
-                }
-            }
+            if (!hasExistingAnnotation(classFile, Api.class))
+                classFile.addAttribute(swaggerApi.buildApiAnnotation(constPool))
 
             swaggerApi.swaggerOperations.collect { operation ->
-                try {
-                    ctClass.getDeclaredMethods().findAll { dm ->
-                        dm.name == operation.actionName
-                    }.each { method ->
-                        AnnotationsAttribute attribute = operation.buildOperationAnnotation(method, constPool)
-                        method.getMethodInfo().addAttribute(attribute)
-                    }
-                } catch (Exception e) {
-                    log.error("""
-                            Unable to attach @ApiOperation annotation to: ${operation.actionName} in ${swaggerApi.shortName}
-                            ${operation}
-                        """.stripIndent(), e)
+                ctClass.getDeclaredMethods().findAll { dm ->
+                    dm.name == operation.actionName
+                }.each { method ->
+                    AnnotationsAttribute attribute = operation.buildOperationAnnotation(method, constPool)
+                    method.getMethodInfo().addAttribute(attribute)
                 }
 
                 operation.commandObjects
@@ -58,9 +43,9 @@ class SwaggerBuilder implements SwaggerBuilderHelper {
                 addMixinToCommandOjbect(it as String)
             }
 
-            ctClass.setName("swagger.grails.generated.${swaggerApi.shortName}")
-            ctClass.toClass(swaggerLoader, null)
-        }
+            ctClass.setName(generateName(swaggerApi.shortName))
+            ctClass.toClass()
+        }.findAll()
     }
 
     /**

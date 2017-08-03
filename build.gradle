@@ -40,6 +40,8 @@ dependencyManagement {
 }
 
 dependencies {
+    compile "asm:asm-commons:3.3.1"
+
     compile "io.swagger:swagger-core:1.5.15"
     compile "io.swagger:swagger-annotations:1.5.15"
     compile "io.swagger:swagger-models:1.5.15"

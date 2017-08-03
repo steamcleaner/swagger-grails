@@ -1,7 +1,6 @@
 package swagger.grails.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import swagger.grails.SwaggerBuilderHelper
 import grails.util.Holders
 import groovy.transform.ToString
 import io.swagger.annotations.Api
@@ -11,6 +10,7 @@ import javassist.bytecode.annotation.Annotation
 import javassist.bytecode.annotation.ArrayMemberValue
 import javassist.bytecode.annotation.StringMemberValue
 import org.grails.core.DefaultGrailsControllerClass
+import swagger.grails.SwaggerBuilderHelper
 import swagger.grails.SwaggerController
 
 /**
@@ -62,8 +62,8 @@ class SwaggerApi implements SwaggerBuilderHelper {
      */
     @JsonIgnore
     static List<SwaggerApi> getApis() {
-        Holders.grailsApplication["controllerClasses"].findAll { DefaultGrailsControllerClass it ->
-            it.clazz.name != SwaggerController.class.name
+        Holders.grailsApplication["controllerClasses"].findAll { DefaultGrailsControllerClass dc ->
+            dc.clazz.name != SwaggerController.class.name && !dc.clazz.isInterface()
         }.collect { DefaultGrailsControllerClass it ->
             new SwaggerApi(it)
         }.sort {

@@ -7,30 +7,44 @@ import io.swagger.annotations.Api
 import io.swagger.util.Json
 import javassist.ClassPool
 import javassist.CtClass
+import javassist.LoaderClassPath
 import javassist.bytecode.AnnotationsAttribute
 import javassist.bytecode.annotation.Annotation
+import org.apache.commons.lang.RandomStringUtils
+import org.grails.web.servlet.mvc.GrailsWebRequest
+import org.grails.web.util.WebUtils
 import org.springframework.context.MessageSource
 
 trait SwaggerBuilderHelper {
     @JsonIgnore
+    static ObjectMapper mapper = Json.mapper()
+    @JsonIgnore
     static MessageSource messageSource = Holders.applicationContext.getBean("messageSource")
     @JsonIgnore
-    static ClassPool classPool = ClassPool.getDefault()
-    @JsonIgnore
-    static ObjectMapper mapper = Json.mapper()
+    static ClassPool classPool = loadClassPool()
 
     /**
-     * Delegates work to:
-     * <br><br>
-     * <code>static CtClass buildCtClass(def generatedName, String className)</code>
      *
-     * @param className {@link String}
-     * @return {@link javassist.CtClass}
+     *
+     * @param swaggerApi
+     * @return
      */
-    static CtClass buildCtClass(String className) {
-        ClassPool classPool = new ClassPool()
+    static String generateName(String shortName) {
+        "swagger.grails.generated.${RandomStringUtils.random(6)}.$shortName"
+    }
+
+    static ClassPool loadClassPool() {
+        classPool = new ClassPool()
         classPool.appendSystemPath()
-        classPool.getCtClass(className)
+
+        try {
+            GrailsWebRequest webUtils = WebUtils.retrieveGrailsWebRequest()
+            def request = webUtils.getCurrentRequest()
+            classPool.appendClassPath(new LoaderClassPath(request.servletContext.classLoader))
+        } catch (Exception e) {
+        }
+
+        classPool
     }
 
     /**
@@ -48,17 +62,9 @@ trait SwaggerBuilderHelper {
      * @return {@link javassist.CtClass}
      */
     static CtClass buildCtClass(def generatedName, String className) {
-        CtClass ctClass = Optional
+        Optional
                 .ofNullable(classPool.getOrNull(generatedName as String))
                 .orElse(classPool.getCtClass(className))
-
-        if (ctClass.isFrozen()) {
-            classPool = new ClassPool()
-            classPool.appendSystemPath()
-            ctClass = classPool.getCtClass(className)
-        }
-
-        ctClass
     }
 
     /**
@@ -93,4 +99,27 @@ trait SwaggerBuilderHelper {
             it.typeName == clazz.name
         }
     }
+
+    /**
+     * List of types that are considered primitives
+     */
+    static List<String> primitives = [
+            "byte",
+            "char",
+            "double",
+            "float",
+            "int",
+            "long",
+            "short",
+            "boolean",
+            "java.lang.String",
+            "java.lang.Byte",
+            "java.lang.Character",
+            "java.lang.Double",
+            "java.lang.Float",
+            "java.lang.Integer",
+            "java.lang.Long",
+            "java.lang.Short",
+            "java.lang.Boolean"
+    ]
 }
