@@ -1,20 +1,18 @@
 package swagger.grails.model
 
+import com.thoughtworks.paranamer.BytecodeReadingParanamer
+import com.thoughtworks.paranamer.CachingParanamer
+import com.thoughtworks.paranamer.Paranamer
 import grails.web.mapping.UrlMapping
 import groovy.util.logging.Slf4j
+import org.apache.commons.lang3.ClassUtils
 import org.grails.core.DefaultGrailsControllerClass
-import org.grails.web.servlet.mvc.GrailsWebRequest
-import org.grails.web.util.WebUtils
-import org.objectweb.asm.ClassReader
-import org.objectweb.asm.Type
-import org.objectweb.asm.tree.ClassNode
-import org.objectweb.asm.tree.LocalVariableNode
-import org.objectweb.asm.tree.MethodNode
 import swagger.grails.SwaggerBuilderHelper
+
+import java.lang.reflect.Method
 
 @Slf4j
 class SwaggerParameterBuilder implements SwaggerBuilderHelper {
-
     /**
      * Using the supplied class and action name all of the path/query/body params
      * are found and mashed together.
@@ -27,35 +25,39 @@ class SwaggerParameterBuilder implements SwaggerBuilderHelper {
      */
     static List<SwaggerParameter> buildSwaggerParameters(DefaultGrailsControllerClass controllerClass, String actionName, UrlMapping urlMapping) {
         List<String> pathParams = buildPathParams(urlMapping)
-        ClassNode classNode = new ClassNode()
-        ClassReader cr = new ClassReader(getClassForAsm(controllerClass.clazz.name))
-        cr.accept(classNode, 0)
 
-        List<SwaggerParameter> parameters = classNode.methods.find { MethodNode mn ->
-            mn.name == actionName
-        }.collect { MethodNode mn ->
-            List<Type> argumentTypes = Type.getArgumentTypes(mn.desc).toList()
+        Method method = controllerClass.clazz.methods.findAll {
+            it.name == actionName
+        }.sort {
+            -it.genericParameterTypes.size()
+        }.head()
 
-            argumentTypes.withIndex().collect { type, index ->
-                String fieldName = (mn.localVariables as List<LocalVariableNode>).get(index + 1).name
-                boolean primitive = argumentTypes[index].className in primitives
-                String paramType = "body"
+        if (method.parameterCount == 0)
+            return []
 
-                if (primitive && pathParams.contains(fieldName))
-                    paramType = "path"
-                else if (primitive && !pathParams.contains(fieldName))
-                    paramType = "query"
+        Paranamer paranamer = new CachingParanamer(new BytecodeReadingParanamer())
+        List<String> paramNames = paranamer.lookupParameterNames(method)
 
-                new SwaggerParameter(name: fieldName, dataType: argumentTypes[index].className, paramType: paramType)
-            }.inject([]) { list, param ->
-                if (param.validate())
-                    list << param
-                else
-                    logParameterValidationError(controllerClass.naturalName, actionName, param)
+        List<SwaggerParameter> parameters = (1..method.parameterCount).collect { int index ->
+            Class<?> type = method.parameters[index - 1].getType()
+            boolean isPrimitiveOrString = (ClassUtils.isPrimitiveOrWrapper(type) || type == String.class)
+            String fieldName = paramNames[index - 1]
+            String paramType = "body"
 
-                list
-            }
-        }.flatten() as List<SwaggerParameter>
+            if (isPrimitiveOrString && pathParams.contains(fieldName))
+                paramType = "path"
+            else if (isPrimitiveOrString && !pathParams.contains(fieldName))
+                paramType = "query"
+
+            new SwaggerParameter(name: fieldName, dataType: type.name, paramType: paramType)
+        }.inject([]) { list, param ->
+            if (param.validate())
+                list << param
+            else
+                logParameterValidationError(controllerClass.naturalName, actionName, param)
+
+            list
+        } as List<SwaggerParameter>
 
         pathParams.each {
             if (!(it in parameters*.name))
@@ -105,15 +107,5 @@ class SwaggerParameterBuilder implements SwaggerBuilderHelper {
         |$param failed validation @ $controller.$actionName()
         |$errors
         """.stripMargin())
-    }
-
-    private static def getClassForAsm(String className) {
-        try {
-            GrailsWebRequest webUtils = WebUtils.retrieveGrailsWebRequest()
-            def request = webUtils.getCurrentRequest()
-            request.servletContext.classLoader.getResourceAsStream(className.replace(".", "/") + ".class")
-        } catch (Exception e) {
-            className
-        }
     }
 }
