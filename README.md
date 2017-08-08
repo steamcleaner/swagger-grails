@@ -2,7 +2,7 @@
 
 
 # swagger-grails
-Generate and view Swagger documentation for your Grails app.
+Generate Swagger documentation for your Grails app.
 
 ## Built With
 * Grails 3.1.5
