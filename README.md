@@ -1,12 +1,12 @@
 # WIP
 
+
 # swagger-grails
 Generate and view Swagger documentation for your Grails app.
 
 ## Built With
 * Grails 3.1.5
 * Swagger Core 1.5.15
-* Swagger UI 3.0.18
 
 ## Installation
 Add this line to the `repositories` block in your `build.gradle` file:
@@ -15,7 +15,7 @@ Add this line to the `repositories` block in your `build.gradle` file:
 
 Add this line to the `dependencies` block in your `build.gradle` file:
     
-    compile "org.grails.plugins:swagger-grails:0.2.0"
+    compile "org.grails.plugins:swagger-grails:0.3.0"
     
 ## Usage
 Given the following UrlMappings.groovy ...
@@ -96,5 +96,5 @@ can apply to controllers and actions :
 ##### Running
 * Clone or download the repo
 * Run `grails run-app`
-* Navigate to `http://localhost:8080/swagger`
+* Navigate to `http://localhost:8080/`
 
