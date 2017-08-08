@@ -50,13 +50,6 @@ class SwaggerParameterBuilder implements SwaggerBuilderHelper {
                 paramType = "query"
 
             new SwaggerParameter(name: fieldName, dataType: type.name, paramType: paramType)
-        }.inject([]) { list, param ->
-            if (param.validate())
-                list << param
-            else
-                logParameterValidationError(controllerClass.naturalName, actionName, param)
-
-            list
         } as List<SwaggerParameter>
 
         pathParams.each {
@@ -89,23 +82,5 @@ class SwaggerParameterBuilder implements SwaggerBuilderHelper {
         }.withIndex().collect { String token, int index ->
             urlMapping.constraints[index].propertyName
         }
-    }
-
-    /**
-     * Prints out validation errors in a human readable format
-     *
-     * @param controller Short name of controller
-     * @param param {@link SwaggerParameter}
-     */
-    private static void logParameterValidationError(String controller, String actionName, SwaggerParameter param) {
-        String replacement = "of class [class ${SwaggerParameter.class.name}] "
-        String errors = param.errors.allErrors.collect { error ->
-            "\t${messageSource.getMessage(error, null).replace(replacement, "")}"
-        }.join("\n")
-
-        log.error("""
-        |$param failed validation @ $controller.$actionName()
-        |$errors
-        """.stripMargin())
     }
 }

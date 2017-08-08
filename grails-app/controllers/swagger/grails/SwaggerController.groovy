@@ -6,10 +6,6 @@ import swagger.grails.model.SwaggerApi
 class SwaggerController {
     SwaggerService swaggerService
 
-    def index() {
-
-    }
-
     def api() {
         render(status: 200, contentType: "application/json", text: swaggerService.generate())
     }
