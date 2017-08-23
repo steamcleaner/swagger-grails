@@ -11,6 +11,7 @@ class SwaggerGrailsPlugin extends Plugin {
     def pluginExcludes = [
             "grails-app/views/error.gsp",
             "grails-app/views/notFound.gsp",
+            "grails-app/conf/logback-test.groovy",
             "**/test/**"
     ]
     def title = "swagger-grails"

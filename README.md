@@ -17,6 +17,11 @@ Add this line to the `dependencies` block in your `build.gradle` file:
     
     compile "org.grails.plugins:swagger-grails:0.3.0"
     
+>>> 
+The <code>swagger-servlet</code> dependency includes a logback-test.xml file, which will override
+any logback file that you have declared in your app.  To circumvent this in the mean time, just include a logback-test.groovy file in your application that is a copy of the logback.groovy file.
+>>>
+
 ## Usage
 Given the following UrlMappings.groovy ...
 ```groovy

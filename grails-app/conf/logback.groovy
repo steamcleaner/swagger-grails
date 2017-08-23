@@ -8,7 +8,7 @@ appender('STDOUT', ConsoleAppender) {
     }
 }
 
-root(DEBUG, ['STDOUT'])
+root(ERROR, ['STDOUT'])
 
 def targetDir = BuildSettings.TARGET_DIR
 if (Environment.isDevelopmentMode() && targetDir) {
@@ -19,5 +19,5 @@ if (Environment.isDevelopmentMode() && targetDir) {
             pattern = "%level %logger - %msg%n"
         }
     }
-    logger("StackTrace", DEBUG, ['FULL_STACKTRACE'], false)
+    logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
 }
