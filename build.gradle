@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-version "0.3.0"
+version "0.3.1"
 group "org.grails.plugins"
 
 apply plugin: "eclipse"
@@ -39,23 +39,30 @@ dependencyManagement {
 dependencies {
     compile "com.thoughtworks.paranamer:paranamer:2.8"
 
-    compile "io.swagger:swagger-core:1.5.16"
-    compile "io.swagger:swagger-annotations:1.5.16"
-    compile "io.swagger:swagger-models:1.5.16"
-    compile "io.swagger:swagger-servlet:1.5.16"
-
-    provided "org.hibernate:hibernate-validator"
+    compile("io.swagger:swagger-core:1.5.16") {
+        exclude group: "javax.validation", module: "validation-api"
+    }
+    compile("io.swagger:swagger-annotations:1.5.16") {
+        exclude group: "javax.validation", module: "validation-api"
+    }
+    compile("io.swagger:swagger-models:1.5.16") {
+        exclude group: "javax.validation", module: "validation-api"
+    }
+    compile("io.swagger:swagger-servlet:1.5.16") {
+        exclude group: "javax.validation", module: "validation-api"
+    }
 
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
-    provided "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
     console "org.grails:grails-console"
     profile "org.grails.profiles:web-plugin"
     provided "org.grails:grails-plugin-services"
     provided "org.grails:grails-plugin-domain-class"
+    provided "org.springframework.boot:spring-boot-starter-tomcat"
+
     testCompile "org.grails:grails-plugin-testing"
 }
 

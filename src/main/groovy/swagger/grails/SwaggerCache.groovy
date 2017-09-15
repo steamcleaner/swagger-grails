@@ -19,7 +19,8 @@ class SwaggerCache {
 
     /**
      * Returns the already built instance of swagger if it exists.
-     * <br><br>
+     * Otherwise the closure is invoked and the result of that call
+     * is cached locally.
      *
      * @param closure
      * @return An instance of {@link Swagger}

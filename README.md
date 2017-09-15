@@ -1,12 +1,11 @@
 # WIP
 
-
 # swagger-grails
 Generate Swagger documentation for your Grails app.
 
 ## Built With
 * Grails 3.1.5
-* Swagger Core 1.5.15
+* Swagger Core 1.5.16
 
 ## Installation
 Add this line to the `repositories` block in your `build.gradle` file:
@@ -15,7 +14,7 @@ Add this line to the `repositories` block in your `build.gradle` file:
 
 Add this line to the `dependencies` block in your `build.gradle` file:
     
-    compile "org.grails.plugins:swagger-grails:0.3.0"
+    compile "org.grails.plugins:swagger-grails:0.3.1"
     
 >>> 
 The <code>swagger-servlet</code> dependency includes a logback-test.xml file, which will override
