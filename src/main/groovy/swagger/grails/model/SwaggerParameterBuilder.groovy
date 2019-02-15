@@ -42,6 +42,14 @@ class SwaggerParameterBuilder implements SwaggerBuilderHelper {
             Class<?> type = method.parameters[index - 1].getType()
             boolean isPrimitiveOrString = (ClassUtils.isPrimitiveOrWrapper(type) || type == String.class)
             String fieldName = paramNames[index - 1]
+            String dataType = {
+                if (isPrimitiveOrString && type.simpleName != "String")
+                    return type.simpleName
+                else if (isPrimitiveOrString && type.simpleName == "String")
+                    return "string"
+                else
+                    return type.name
+            }()
             String paramType = "body"
 
             if (isPrimitiveOrString && pathParams.contains(fieldName))
@@ -49,12 +57,12 @@ class SwaggerParameterBuilder implements SwaggerBuilderHelper {
             else if (isPrimitiveOrString && !pathParams.contains(fieldName))
                 paramType = "query"
 
-            new SwaggerParameter(name: fieldName, dataType: type.name, paramType: paramType)
+            new SwaggerParameter(name: fieldName, dataType: dataType, paramType: paramType)
         } as List<SwaggerParameter>
 
         pathParams.each {
             if (!(it in parameters*.name))
-                parameters << new SwaggerParameter(name: it, dataType: "java.lang.String", paramType: "path")
+                parameters << new SwaggerParameter(name: it, dataType: "string", paramType: "path")
         }
 
         parameters.sort {

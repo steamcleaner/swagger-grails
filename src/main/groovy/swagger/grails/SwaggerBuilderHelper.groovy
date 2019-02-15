@@ -99,27 +99,4 @@ trait SwaggerBuilderHelper {
             it.typeName == clazz.name
         }
     }
-
-    /**
-     * List of types that are considered primitives
-     */
-    static List<String> primitives = [
-            "byte",
-            "char",
-            "double",
-            "float",
-            "int",
-            "long",
-            "short",
-            "boolean",
-            "java.lang.String",
-            "java.lang.Byte",
-            "java.lang.Character",
-            "java.lang.Double",
-            "java.lang.Float",
-            "java.lang.Integer",
-            "java.lang.Long",
-            "java.lang.Short",
-            "java.lang.Boolean"
-    ]
 }
