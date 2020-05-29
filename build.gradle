@@ -1,9 +1,5 @@
 buildscript {
-    ext {
-        grailsVersion = project.grailsVersion
-    }
     repositories {
-        mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
@@ -11,7 +7,7 @@ buildscript {
     }
 }
 
-version "0.3.4"
+version "0.4.0"
 group "org.grails.plugins"
 
 apply plugin: "eclipse"
@@ -19,21 +15,15 @@ apply plugin: "idea"
 apply plugin: "org.grails.grails-plugin"
 apply plugin: "org.grails.grails-plugin-publish"
 
-ext {
-    grailsVersion = project.grailsVersion
-    gradleWrapperVersion = project.gradleWrapperVersion
-}
-
 repositories {
-    mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.grails:grails-bom:$grailsVersion"
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
     }
-    applyMavenExclusions false
 }
 
 dependencies {
@@ -54,22 +44,35 @@ dependencies {
 
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
+    compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-core"
     compile "org.grails:grails-dependencies"
     compile "org.grails:grails-web-boot"
-    console "org.grails:grails-console"
+    compile "org.grails:grails-plugin-url-mappings"
+    compile "org.grails:grails-plugin-validation"
+    compileOnly "io.micronaut:micronaut-inject-groovy"
     profile "org.grails.profiles:web-plugin"
-    provided "org.grails:grails-plugin-services"
-    provided "org.grails:grails-plugin-domain-class"
-    provided "org.springframework.boot:spring-boot-starter-tomcat"
-
-    testCompile "org.grails:grails-plugin-testing"
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = gradleWrapperVersion
+bootRun {
+    ignoreExitValue true
+    jvmArgs(
+            '-Dspring.output.ansi.enabled=always',
+            '-noverify',
+            '-XX:TieredStopAtLevel=1',
+            '-Xmx1024m')
+    sourceResources sourceSets.main
+    String springProfilesActive = 'spring.profiles.active'
+    systemProperty springProfilesActive, System.getProperty(springProfilesActive)
 }
 
+tasks.withType(GroovyCompile) {
+    configure(groovyOptions) {
+        forkOptions.jvmArgs = ['-Xmx1024m']
+    }
+}
+
+bootJar.enabled = false
 grailsPublish {
     githubSlug = 'steamcleaner/swagger-grails'
     license {
