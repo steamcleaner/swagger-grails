@@ -10,7 +10,7 @@ import javassist.CtClass
 import javassist.LoaderClassPath
 import javassist.bytecode.AnnotationsAttribute
 import javassist.bytecode.annotation.Annotation
-import org.apache.commons.lang.RandomStringUtils
+import org.apache.commons.lang3.RandomStringUtils
 import org.grails.web.servlet.mvc.GrailsWebRequest
 import org.grails.web.util.WebUtils
 import org.springframework.context.MessageSource
