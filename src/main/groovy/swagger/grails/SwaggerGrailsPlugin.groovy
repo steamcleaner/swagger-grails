@@ -7,7 +7,7 @@ import io.swagger.models.auth.ApiKeyAuthDefinition
 import io.swagger.models.auth.In
 
 class SwaggerGrailsPlugin extends Plugin {
-    def grailsVersion = "3.1.5 > *"
+    def grailsVersion = "4.0.3 > *"
     def pluginExcludes = [
             "grails-app/views/error.gsp",
             "grails-app/views/notFound.gsp",
@@ -17,7 +17,7 @@ class SwaggerGrailsPlugin extends Plugin {
     def title = "swagger-grails"
     def author = "steamcleaner"
     def authorEmail = ""
-    def description = "Grails 3.x plugin that will generate and display Swagger documentation."
+    def description = "Grails 4.0.x plugin that will generate and display Swagger documentation."
     def profiles = ['web']
     def documentation = "https://github.com/steamcleaner/swagger-grails"
     def watchedResources = [
