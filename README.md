@@ -4,7 +4,8 @@
 Generate Swagger documentation for your Grails app.
 
 ## Built With
-* Grails 3.1.5
+* Java 11
+* Grails 4.0.3
 * Swagger Core 1.5.16
 
 ## Installation
@@ -14,7 +15,7 @@ Add this line to the `repositories` block in your `build.gradle` file:
 
 Add this line to the `dependencies` block in your `build.gradle` file:
     
-    compile "org.grails.plugins:swagger-grails:0.3.4"
+    compile "org.grails.plugins:swagger-grails:0.4.0"
     
 >>> 
 The <code>swagger-servlet</code> dependency includes a logback-test.xml file, which will override
@@ -94,8 +95,8 @@ The plugin source contains more examples of what types of configuration you
 can apply to controllers and actions :
 
 ##### Prerequisites
-* Java 8
-* Grails 3.1.5
+* Java 11
+* Grails 4.0.3
 
 ##### Running
 * Clone or download the repo
