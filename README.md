@@ -1,7 +1,5 @@
-# WIP
-
 # swagger-grails
-Generate Swagger documentation for your Grails app.
+Generate Swagger documentation for your Grails 4 app.
 
 ## Built With
 * Java 11
