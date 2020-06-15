@@ -21,7 +21,7 @@ any logback file that you have declared in your app.  To circumvent this in the 
 >>>
 
 ## Usage
-Given the following UrlMappings.groovy ...
+Given the following UrlMappings.groovy
 ```groovy
 class UrlMappings {
     static mappings = {
@@ -64,6 +64,14 @@ class AuthorCommand implements Validateable {
 <p align="center">
     <img src="src/test/resources/author-controller.png?raw=true" />
 </p>
+
+This plugin will only generate the JSON representation of your endpoints. You'll
+need to implement your own [swagger-ui](https://github.com/swagger-api/swagger-ui) to consume the JSON.
+
+If your `UrlMappings` file includes the default `"/$controller/$action?/$id?(.$format)?"` mapping then
+the JSON will be acessible by hitting http://localhost:8080/swagger/api.  This endpoint
+can be customized by adding `"/swagger/api"(controller: "swagger", action: "api")` to your
+UrlMappings file.
 
 Also any Swagger annotations that are manually added to actions in  controllers
 will be used when generating the Swagger documentation. So you could let the
