@@ -70,7 +70,7 @@ need to implement your own [swagger-ui](https://github.com/swagger-api/swagger-u
 
 If your `UrlMappings` file includes the default `"/$controller/$action?/$id?(.$format)?"` mapping then
 the JSON will be acessible by hitting http://localhost:8080/swagger/api.  This endpoint
-can be customized by adding `"/swagger/api"(controller: "swagger", action: "api")` to your
+can be customized by adding `"/custom/swagger/endpoint"(controller: "swagger", action: "api")` to your
 UrlMappings file.
 
 Also any Swagger annotations that are manually added to actions in  controllers
