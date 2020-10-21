@@ -7,7 +7,7 @@ buildscript {
     }
 }
 
-version "0.4.0"
+version "0.4.0.1-custom"
 group "org.grails.plugins"
 
 apply plugin: "eclipse"
@@ -73,11 +73,3 @@ tasks.withType(GroovyCompile) {
 }
 
 bootJar.enabled = false
-grailsPublish {
-    githubSlug = 'steamcleaner/swagger-grails'
-    license {
-        name = 'Apache-2.0'
-    }
-    title = "swagger-grails"
-    developers = [steamcleaner: "steamcleaner"]
-}

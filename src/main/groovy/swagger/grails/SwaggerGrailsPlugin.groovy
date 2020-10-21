@@ -28,14 +28,18 @@ class SwaggerGrailsPlugin extends Plugin {
 
     Closure doWithSpring() {
         { ->
-            swagger(Swagger) { bean ->
-                basePath = grailsApplication.config.server.contextPath ?: null
-                securityDefinitions = ["apiKey": new ApiKeyAuthDefinition("apiKey", In.HEADER)]
-                security = [new SecurityRequirement().requirement("apiKey")]
-            }
+            def conf = grailsApplication.config
+            def swaggerConfig = conf.swagger
+            if (swaggerConfig.active) {
+                swagger(Swagger) { bean ->
+                    basePath = grailsApplication.config.server.contextPath ?: null
+                    securityDefinitions = ["apiKey": new ApiKeyAuthDefinition("apiKey", In.HEADER)]
+                    security = [new SecurityRequirement().requirement("apiKey")]
+                }
 
-            swaggerCache(SwaggerCache) { bean ->
-                swagger = ref('swagger')
+                swaggerCache(SwaggerCache) { bean ->
+                    swagger = ref('swagger')
+                }
             }
         }
     }
