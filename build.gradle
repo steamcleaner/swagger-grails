@@ -12,8 +12,8 @@ group "org.grails.plugins"
 
 apply plugin: "eclipse"
 apply plugin: "idea"
+apply plugin: "maven-publish"
 apply plugin: "org.grails.grails-plugin"
-apply plugin: "org.grails.grails-plugin-publish"
 
 repositories {
     maven { url "https://repo.grails.org/grails/core" }
@@ -73,11 +73,21 @@ tasks.withType(GroovyCompile) {
 }
 
 bootJar.enabled = false
-grailsPublish {
-    githubSlug = 'steamcleaner/swagger-grails'
-    license {
-        name = 'Apache-2.0'
+
+publishing {
+    repositories {
+        maven {
+            url 'https://steamcleaner.jfrog.io/artifactory/grails-plugins/'
+            credentials {
+                username System.getenv('JFR_USERNAME')
+                password System.getenv('JFR_TOKEN')
+            }
+        }
     }
-    title = "swagger-grails"
-    developers = [steamcleaner: "steamcleaner"]
+
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
 }
