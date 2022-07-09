@@ -1,6 +1,6 @@
 # swagger-grails
 
-Generate Swagger documentation for your Grails 4 app.
+Generate Swagger documentation for your **Grails 5+** app.
 
 ## Built With
 
