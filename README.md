@@ -5,8 +5,8 @@ Generate Swagger documentation for your Grails 4 app.
 ## Built With
 
 * Java 11
-* Grails 4.0.3
-* Swagger Core 1.5.17
+* Grails 5.2.0
+* Swagger Core 1.6.6
 
 ## Installation
 
@@ -19,7 +19,7 @@ maven { url "https://steamcleaner.jfrog.io/artifactory/grails-plugins" }
 Add this line to the `dependencies` block in your `build.gradle` file:
 
 ```groovy
-compile "org.grails.plugins:swagger-grails:0.4.0"
+compile "org.grails.plugins:swagger-grails:0.5.0"
 ```
 
 ## Usage
@@ -105,7 +105,7 @@ The plugin source contains more examples of what types of configuration you can 
 ##### Prerequisites
 
 * Java 11
-* Grails 4.0.3
+* Grails 5.2.0
 
 ##### Running
 
