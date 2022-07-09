@@ -15,6 +15,10 @@ apply plugin: "idea"
 apply plugin: "maven-publish"
 apply plugin: "org.grails.grails-plugin"
 
+jar {
+    archiveClassifier.set("")
+}
+
 repositories {
     maven { url "https://repo.grails.org/grails/core" }
 }
