@@ -7,7 +7,7 @@ buildscript {
     }
 }
 
-version "0.4.0"
+version "0.5.0"
 group "org.grails.plugins"
 
 apply plugin: "eclipse"
@@ -27,29 +27,29 @@ configurations {
 }
 
 dependencies {
-    compile "com.thoughtworks.paranamer:paranamer:2.8"
+    implementation "com.thoughtworks.paranamer:paranamer:2.8"
 
-    compile("io.swagger:swagger-core:1.5.17") {
+    implementation("io.swagger:swagger-core:1.6.6") {
         exclude group: "javax.validation", module: "validation-api"
     }
-    compile("io.swagger:swagger-annotations:1.5.17") {
+    implementation("io.swagger:swagger-annotations:1.6.6") {
         exclude group: "javax.validation", module: "validation-api"
     }
-    compile("io.swagger:swagger-models:1.5.17") {
+    implementation("io.swagger:swagger-models:1.6.6") {
         exclude group: "javax.validation", module: "validation-api"
     }
-    compile("io.swagger:swagger-servlet:1.5.17") {
+    implementation("io.swagger:swagger-servlet:1.6.6") {
         exclude group: "javax.validation", module: "validation-api"
     }
 
-    compile "org.springframework.boot:spring-boot-starter-logging"
-    compile "org.springframework.boot:spring-boot-autoconfigure"
-    compile "org.springframework.boot:spring-boot-starter-tomcat"
-    compile "org.grails:grails-core"
-    compile "org.grails:grails-dependencies"
-    compile "org.grails:grails-web-boot"
-    compile "org.grails:grails-plugin-url-mappings"
-    compile "org.grails:grails-plugin-validation"
+    implementation "org.springframework.boot:spring-boot-starter-logging"
+    implementation "org.springframework.boot:spring-boot-autoconfigure"
+    implementation "org.springframework.boot:spring-boot-starter-tomcat"
+    implementation "org.grails:grails-core"
+    implementation "org.grails:grails-dependencies"
+    implementation "org.grails:grails-web-boot"
+    implementation "org.grails:grails-plugin-url-mappings"
+    implementation "org.grails:grails-plugin-validation"
     compileOnly "io.micronaut:micronaut-inject-groovy"
     profile "org.grails.profiles:web-plugin"
 }

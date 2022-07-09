@@ -28,7 +28,7 @@ spring:
                 - '**/*.gsp'
                 - '*.gson'
                 - '**/*.gson'
-                - 'logback.groovy'
+                - 'logback.xml'
                 - '*.properties'
 management:
     endpoints:
