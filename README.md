@@ -19,7 +19,7 @@ maven { url "https://steamcleaner.jfrog.io/artifactory/grails-plugins" }
 Add this line to the `dependencies` block in your `build.gradle` file:
 
 ```groovy
-compile "org.grails.plugins:swagger-grails:0.5.0"
+implementation "org.grails.plugins:swagger-grails:0.5.0"
 ```
 
 ## Usage
